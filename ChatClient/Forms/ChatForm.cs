@@ -67,7 +67,7 @@ namespace ChatClient
 
 	    private void SendMessage(object obj)
 	    {
-		    byte[] outStream = System.Text.Encoding.ASCII.GetBytes(Message + "$");
+		    byte[] outStream = System.Text.Encoding.UTF8.GetBytes(Message + "$");
 		    serverStream.Write(outStream, 0, outStream.Length);
 		    serverStream.Flush();
 			Message = "";
@@ -80,16 +80,16 @@ namespace ChatClient
 
 	    private void Connect(object obj)
 	    {
-		    ReadData = "Conected to Chat Server ...";
+		    ReadData = "Connected to Chat Server ...";
 		    msg();
 
-			clientSocket.Connect("127.0.0.1", 8888);
+			clientSocket.Connect("10.0.16.215", 8888);
 			serverStream = clientSocket.GetStream();
 			_toggle = false;
 
 
 
-		    byte[] outStream = System.Text.Encoding.ASCII.GetBytes(Username + "$");
+		    byte[] outStream = System.Text.Encoding.UTF8.GetBytes(Username + "$");
 		    serverStream.Write(outStream, 0, outStream.Length);
 		    serverStream.Flush();
 
@@ -117,15 +117,8 @@ namespace ChatClient
                 int buffSize = 0;
                 byte[] inStream = new byte[clientSocket.ReceiveBufferSize];
                 buffSize = clientSocket.ReceiveBufferSize;
-				try
-				{
 					serverStream.Read(inStream, 0, buffSize);
-				}
-				catch(Exception ex)
-				{
-
-				}
-                string returndata = System.Text.Encoding.ASCII.GetString(inStream);
+                string returndata = System.Text.Encoding.UTF8.GetString(inStream);
                 ReadData = "" + returndata;
 				msg();
 				//Chat.Add(readData);

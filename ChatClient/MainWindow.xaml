@@ -29,7 +29,9 @@
 			<TextBox Grid.Column="1" Height="25" Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}"></TextBox>
 			<Button Grid.Column="2" Height="25" Margin="2" Command="{Binding ConnectCommand}">Connect to Server</Button>
         </Grid>
-        <ListView Grid.Row="2" Grid.Column="1" ItemsSource="{Binding Chat}"></ListView>
+        <ListView Grid.Row="2" Grid.Column="1" ItemsSource="{Binding Chat}">
+
+        </ListView>
         <Grid Grid.Row="3" Grid.Column="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="3*"></ColumnDefinition>
