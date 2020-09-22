@@ -13,6 +13,7 @@ namespace ChatClient
     {
 	    private string _username;
 	    private string _message;
+		private bool _toggle = true;
 		public string ReadData { get; set; }
 	    private ObservableCollection<string> _chat;
         public RelayCommand SendCommand { get; set; }
@@ -57,10 +58,10 @@ namespace ChatClient
 		    }
 	    }
 
-	    public ChatForm()
-	    {
-		    SendCommand = new RelayCommand(SendMessage, CheckMessage);
-		    ConnectCommand = new RelayCommand(Connect, CheckUser);
+		public ChatForm()
+		{
+			SendCommand = new RelayCommand(SendMessage, CheckMessage);
+			ConnectCommand = new RelayCommand(Connect, CheckUser);
 			Chat = new ObservableCollection<string>();
 	    }
 
@@ -69,19 +70,24 @@ namespace ChatClient
 		    byte[] outStream = System.Text.Encoding.ASCII.GetBytes(Message + "$");
 		    serverStream.Write(outStream, 0, outStream.Length);
 		    serverStream.Flush();
+			Message = "";
 		}
 
 	    private bool CheckMessage(object obj)
 	    {
-		    return !String.IsNullOrEmpty(Message);
+		    return (!String.IsNullOrEmpty(Message) && !_toggle);
 		}
 
 	    private void Connect(object obj)
 	    {
 		    ReadData = "Conected to Chat Server ...";
 		    msg();
-		    clientSocket.Connect("127.0.0.1", 8888);
-		    serverStream = clientSocket.GetStream();
+
+			clientSocket.Connect("127.0.0.1", 8888);
+			serverStream = clientSocket.GetStream();
+			_toggle = false;
+
+
 
 		    byte[] outStream = System.Text.Encoding.ASCII.GetBytes(Username + "$");
 		    serverStream.Write(outStream, 0, outStream.Length);
@@ -93,7 +99,7 @@ namespace ChatClient
 
 	    private bool CheckUser(object obj)
 	    {
-		    return !String.IsNullOrEmpty(Username);
+			return (!String.IsNullOrEmpty(Username) && _toggle);
 	    }
 
 
