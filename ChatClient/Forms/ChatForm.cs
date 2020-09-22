@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using System.Text;
 using System.Net.Sockets;
 using System.Threading;
+using System.Windows.Threading;
 
 namespace ChatClient
 {
@@ -12,6 +13,7 @@ namespace ChatClient
     {
 	    private string _username;
 	    private string _message;
+		public string ReadData { get; set; }
 	    private ObservableCollection<string> _chat;
         public RelayCommand SendCommand { get; set; }
         public RelayCommand ConnectCommand { get; set; }
@@ -59,6 +61,7 @@ namespace ChatClient
 	    {
 		    SendCommand = new RelayCommand(SendMessage, CheckMessage);
 		    ConnectCommand = new RelayCommand(Connect, CheckUser);
+			Chat = new ObservableCollection<string>();
 	    }
 
 	    private void SendMessage(object obj)
@@ -75,7 +78,7 @@ namespace ChatClient
 
 	    private void Connect(object obj)
 	    {
-		    readData = "Conected to Chat Server ...";
+		    ReadData = "Conected to Chat Server ...";
 		    msg();
 		    clientSocket.Connect("127.0.0.1", 8888);
 		    serverStream = clientSocket.GetStream();
@@ -96,7 +99,6 @@ namespace ChatClient
 
 		System.Net.Sockets.TcpClient clientSocket = new System.Net.Sockets.TcpClient();
         NetworkStream serverStream = default(NetworkStream);
-        string readData = null;
 
 
 
@@ -107,11 +109,18 @@ namespace ChatClient
             {
                 serverStream = clientSocket.GetStream();
                 int buffSize = 0;
-                byte[] inStream = new byte[10025];
+                byte[] inStream = new byte[clientSocket.ReceiveBufferSize];
                 buffSize = clientSocket.ReceiveBufferSize;
-                serverStream.Read(inStream, 0, buffSize);
+				try
+				{
+					serverStream.Read(inStream, 0, buffSize);
+				}
+				catch(Exception ex)
+				{
+
+				}
                 string returndata = System.Text.Encoding.ASCII.GetString(inStream);
-                readData = "" + returndata;
+                ReadData = "" + returndata;
 				msg();
 				//Chat.Add(readData);
 			}
@@ -119,7 +128,8 @@ namespace ChatClient
 
         private void msg()
         {
-	        Chat.Add(readData);
+			System.Windows.Application.Current.Dispatcher.Invoke(
+				(Action)(() => { Chat.Add(ReadData); }));
         }
 
     }
