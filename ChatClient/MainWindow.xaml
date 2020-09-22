@@ -26,7 +26,7 @@
                 <ColumnDefinition Width="1*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
 			<TextBlock VerticalAlignment="Center" TextAlignment="Right"  Grid.Column="0" Height="25">Username:</TextBlock>
-			<TextBox Grid.Column="1" Height="25" Text="{Binding Username}"></TextBox>
+			<TextBox Grid.Column="1" Height="25" Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}"></TextBox>
 			<Button Grid.Column="2" Height="25" Margin="2" Command="{Binding ConnectCommand}">Connect to Server</Button>
         </Grid>
         <ListView Grid.Row="2" Grid.Column="1" ItemsSource="{Binding Chat}"></ListView>
@@ -35,7 +35,7 @@
                 <ColumnDefinition Width="3*"></ColumnDefinition>
                 <ColumnDefinition Width="1*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <TextBox Grid.Column="0" Height="25" VerticalAlignment="Center" Text="{Binding Message}"></TextBox>
+            <TextBox Grid.Column="0" Height="25" VerticalAlignment="Center" Text="{Binding Message, UpdateSourceTrigger=PropertyChanged}"></TextBox>
 			<Button Grid.Column="1" Height="25" Margin="2" Command="{Binding SendCommand}">Senden</Button>
         </Grid>
     </Grid>
