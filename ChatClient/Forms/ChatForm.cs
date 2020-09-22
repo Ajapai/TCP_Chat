@@ -59,6 +59,7 @@ namespace ChatClient
 	    {
 		    SendCommand = new RelayCommand(SendMessage, CheckMessage);
 		    ConnectCommand = new RelayCommand(Connect, CheckUser);
+			Chat = new ObservableCollection<string>();
 	    }
 
 	    private void SendMessage(object obj)
