@@ -30,7 +30,7 @@ namespace ChatServer
 
                 NetworkStream networkStream = clientSocket.GetStream();
                 networkStream.Read(bytesFrom, 0, (int)clientSocket.ReceiveBufferSize);
-                dataFromClient = System.Text.Encoding.ASCII.GetString(bytesFrom);
+                dataFromClient = System.Text.Encoding.UTF8.GetString(bytesFrom);
                 dataFromClient = dataFromClient.Substring(0, dataFromClient.IndexOf("$"));
 
                 clientsList.Add(dataFromClient, clientSocket);
@@ -59,11 +59,11 @@ namespace ChatServer
 
                 if (flag == true)
                 {
-                    broadcastBytes = Encoding.ASCII.GetBytes(uName + " says : " + msg);
+                    broadcastBytes = Encoding.UTF8.GetBytes(uName + " says : " + msg);
                 }
                 else
                 {
-                    broadcastBytes = Encoding.ASCII.GetBytes(msg);
+                    broadcastBytes = Encoding.UTF8.GetBytes(msg);
                 }
 
                 broadcastStream.Write(broadcastBytes, 0, broadcastBytes.Length);

@@ -43,7 +43,7 @@ namespace ChatServer
                     requestCount = requestCount + 1;
                     NetworkStream networkStream = clientSocket.GetStream();
                     networkStream.Read(bytesFrom, 0, (int)clientSocket.ReceiveBufferSize);
-                    dataFromClient = System.Text.Encoding.ASCII.GetString(bytesFrom);
+                    dataFromClient = System.Text.Encoding.UTF8.GetString(bytesFrom);
                     dataFromClient = dataFromClient.Substring(0, dataFromClient.IndexOf("$"));
                     Console.WriteLine("From client - " + clNo + " : " + dataFromClient);
                     rCount = Convert.ToString(requestCount);
