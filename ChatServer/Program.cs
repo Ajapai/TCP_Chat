@@ -25,7 +25,7 @@ namespace ChatServer
                 clientSocket = serverSocket.AcceptTcpClient();
                 Console.WriteLine(counter);
 
-                byte[] bytesFrom = new byte[(int)clientSocket.ReceiveBufferSize];
+                byte[] bytesFrom = new byte[65536];
                 string dataFromClient = null;
 
                 NetworkStream networkStream = clientSocket.GetStream();
