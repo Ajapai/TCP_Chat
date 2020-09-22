@@ -22,6 +22,7 @@ namespace ChatClient
 	{
 		public MainWindow()
 		{
+			DataContext = new ChatForm();
 			InitializeComponent();
 		}
 	}
